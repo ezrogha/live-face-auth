@@ -177,6 +177,41 @@ export default function App() {
       dispatch({ type: "FACE_DETECTED", payload: "yes" })
     }
   
+    const detectionAction = state.detectionsList[state.currentDetectionIndex]
+ 
+    switch (detectionAction) {
+      case "BLINK":
+        // Lower probabiltiy is when eyes are closed
+        const leftEyeClosed =
+          face.leftEyeOpenProbability <= detections.BLINK.minProbability
+        const rightEyeClosed =
+          face.rightEyeOpenProbability <= detections.BLINK.minProbability
+        if (leftEyeClosed && rightEyeClosed) {
+          dispatch({ type: "NEXT_DETECTION", payload: null })
+        }
+        return
+      case "NOD":
+      // TODO: We will implement this next.
+      case "TURN_HEAD_LEFT":
+        // Negative angle is the when the face turns left
+        if (face.yawAngle <= detections.TURN_HEAD_LEFT.maxAngle) {
+          dispatch({ type: "NEXT_DETECTION", payload: null })
+        }
+        return
+      case "TURN_HEAD_RIGHT":
+        // Positive angle is the when the face turns right
+        if (face.yawAngle >= detections.TURN_HEAD_RIGHT.minAngle) {
+          dispatch({ type: "NEXT_DETECTION", payload: null })
+        }
+        return
+      case "SMILE":
+        // Higher probabiltiy is when smiling
+        if (face.smilingProbability >= detections.SMILE.minProbability) {
+          dispatch({ type: "NEXT_DETECTION", payload: null })
+        }
+        return
+    }
+
   }
   
   if (hasPermission === false || hasPermission === null) {

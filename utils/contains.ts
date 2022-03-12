@@ -11,7 +11,7 @@ interface Contains {
 }
 
 /**
- * @returns `true` if `outside` rectangle contains the `inside` rectangle.
+ * returns `true` if `outside` rectangle contains the `inside` rectangle.
  * */
 export function contains({ outside, inside }: Contains) {
     const outsideMaxX = outside.minX + outside.width
