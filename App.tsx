@@ -118,7 +118,14 @@ export default function App() {
   const [state, dispatch] = React.useReducer(detectionReducer, initialState);
   const rollAngles = React.useRef<number[]>([])
 
-  
+  React.useEffect(() => {
+    if (state.processComplete) {
+      setTimeout(() => {
+        // It's very important that the user feels fulfilled by
+        // witnessing the progress fill up to 100%.
+      }, 500)
+    }
+  }, [state.processComplete])
 
   React.useEffect(() => {
     const requestPermissions = async () => {
